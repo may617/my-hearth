@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eternamente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d070f;
+            --purple-dark: #2c1430;
+            --parchment: #e8dcca;
+            --wax: #4a121c;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle, #2e1a36 0%, var(--bg) 100%);
+            font-family: 'Crimson Text', serif;
+            overflow: hidden; 
+        }
+
+        /* Contenedor principal para centrar todo */
+        .scene {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            margin-top: 100px; /* Espacio para que la carta suba */
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        /* Sobre */
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--purple-dark);
+            z-index: 3;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border-radius: 0 0 5px 5px;
+        }
+
+        /* Solapa del sobre */
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #3e1d42;
+            transform-origin: top;
+            transition: transform 0.5s ease, z-index 0.2s 0.4s;
+            z-index: 5;
+        }
+
+        /* El pergamino largo */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 300px;
+            height: auto;
+            min-height: 250px;
+            background: var(--parchment);
+            background-image: linear-gradient(to bottom, #d4c3ac, var(--parchment) 15%);
+            padding: 30px 20px;
+            box-sizing: border-box;
+            z-index: 2;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            border-radius: 2px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            text-align: center;
+            color: #3b2328;
+        }
+
+        /* Estilo del texto */
+        .letter h2 {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 1.8rem;
+            margin: 0 0 15px 0;
+            color: var(--wax);
+        }
+
+        .letter p {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin: 10px 0;
+        }
+
+        /* Sello de lacre */
+        .wax-seal {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: var(--wax);
+            border-radius: 50%;
+            z-index: 6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a89265;
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: opacity 0.3s;
+        }
+
+        /* --- ACCIÓN AL ABRIR --- */
+        .open .flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .open .letter {
+            transform: translateY(-220px); 
+            z-index: 4;
+        }
+
+        .open .wax-seal {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ornament {
+            color: var(--wax);
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scene">
+        <div class="envelope-wrapper" onclick="this.parentElement.classList.toggle('open')">
+            <div class="flap"></div>
+            <div class="wax-seal">V</div>
+            <div class="envelope"></div>
+            
+            <div class="letter">
+                <h2>Mi corazón....</h2>
+                <div class="ornament">❦</div>
+                <p>En el silencio de la noche, <br> solo tu nombre resuena <br> en mi alma.</p>
+                <p>Eres el misterio más bello <br> que tuve suerte de encontrar.</p>
+                <div class="ornament">☙ L ❧</div>
+                <p><strong>Mi amor eterno.</strong></p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
