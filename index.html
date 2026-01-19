@@ -15,22 +15,21 @@
 
         body {
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             background: radial-gradient(circle, #2e1a36 0%, var(--bg) 100%);
             font-family: 'Crimson Text', serif;
-            overflow: hidden; 
+            overflow: hidden;
+            touch-action: manipulation; /* Optimizado para celular */
         }
 
-        /* Contenedor principal para centrar todo */
         .scene {
             position: relative;
-            width: 320px;
-            height: 220px;
-            margin-top: 100px; /* Espacio para que la carta suba */
+            width: 300px;
+            height: 200px;
+            margin-top: 120px;
         }
 
         .envelope-wrapper {
@@ -38,6 +37,7 @@
             width: 100%;
             height: 100%;
             cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
         /* Sobre */
@@ -49,64 +49,58 @@
             z-index: 3;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             border-radius: 0 0 5px 5px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Solapa del sobre */
+        /* Solapa */
         .flap {
             position: absolute;
             top: 0;
             width: 0;
             height: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 110px solid #3e1d42;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #3e1d42;
             transform-origin: top;
-            transition: transform 0.5s ease, z-index 0.2s 0.4s;
+            transition: transform 0.6s ease, z-index 0.2s 0.3s;
             z-index: 5;
         }
 
-        /* El pergamino largo */
+        /* La Carta (Pergamino) */
         .letter {
             position: absolute;
-            bottom: 10px;
+            bottom: 5px;
             left: 10px;
-            width: 300px;
-            height: auto;
-            min-height: 250px;
+            width: 280px;
+            height: 180px; /* Altura inicial dentro del sobre */
             background: var(--parchment);
-            background-image: linear-gradient(to bottom, #d4c3ac, var(--parchment) 15%);
-            padding: 30px 20px;
+            /* Efecto bordes quemados */
+            box-shadow: inset 0 0 20px #d4c3ac, 0 0 10px rgba(0,0,0,0.3);
+            border: 1px solid #c0a88a;
+            padding: 25px 20px;
             box-sizing: border-box;
             z-index: 2;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-            border-radius: 2px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1), height 0.8s ease;
             text-align: center;
             color: #3b2328;
+            overflow: hidden;
         }
 
-        /* Estilo del texto */
         .letter h2 {
             font-family: 'UnifrakturMaguntia', cursive;
-            font-size: 1.8rem;
-            margin: 0 0 15px 0;
+            font-size: 1.6rem;
+            margin: 0 0 10px 0;
             color: var(--wax);
         }
 
-        .letter p {
-            font-size: 1.1rem;
-            line-height: 1.4;
-            margin: 10px 0;
-        }
-
-        /* Sello de lacre */
+        /* Sello de Lacre */
         .wax-seal {
             position: absolute;
-            top: 80px;
+            top: 70px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: var(--wax);
             border-radius: 50%;
             z-index: 6;
@@ -115,49 +109,57 @@
             align-items: center;
             color: #a89265;
             font-family: 'UnifrakturMaguntia', cursive;
-            font-size: 30px;
+            font-size: 25px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: opacity 0.3s;
+            transition: opacity 0.4s;
         }
 
-        /* --- ACCIÓN AL ABRIR --- */
+        /* ESTADO ABIERTO */
         .open .flap {
             transform: rotateX(180deg);
             z-index: 1;
         }
 
         .open .letter {
-            transform: translateY(-220px); 
+            transform: translateY(-240px); /* Sube la carta */
+            height: 380px; /* Se estira para mostrar todo el texto */
             z-index: 4;
         }
 
         .open .wax-seal {
             opacity: 0;
-            pointer-events: none;
         }
 
-        .ornament {
-            color: var(--wax);
-            font-size: 1.2rem;
-            margin: 10px 0;
+        .text-content {
+            opacity: 0;
+            transition: opacity 0.5s 0.6s;
         }
+
+        .open .text-content {
+            opacity: 1;
+        }
+
+        .ornament { color: var(--wax); margin: 5px 0; }
     </style>
 </head>
 <body>
 
     <div class="scene">
-        <div class="envelope-wrapper" onclick="this.parentElement.classList.toggle('open')">
+        <div class="envelope-wrapper" id="main-envelope" onclick="this.classList.toggle('open')">
             <div class="flap"></div>
             <div class="wax-seal">V</div>
             <div class="envelope"></div>
             
             <div class="letter">
-                <h2>Mi corazón....</h2>
-                <div class="ornament">❦</div>
-                <p>En el silencio de la noche, <br> solo tu nombre resuena <br> en mi alma.</p>
-                <p>Eres el misterio más bello <br> que tuve suerte de encontrar.</p>
-                <div class="ornament">☙ L ❧</div>
-                <p><strong>Mi amor eterno.</strong></p>
+                <h2>My corazón...</h2>
+                <div class="text-content">
+                    <div class="ornament">❦</div>
+                    <p>En la penumbra de mis días,</p>
+                    <p>eres la única sombra que <br> deseo perseguir.</p>
+                    <p>Tu luz es un misterio <br> que me cautiva el alma.</p>
+                    <div class="ornament">☙ 🕯️ ❧</div>
+                    <p><strong>mi eterno amor.</strong></p>
+                </div>
             </div>
         </div>
     </div>
